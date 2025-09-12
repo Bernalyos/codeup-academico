@@ -18,28 +18,26 @@ import java.util.Optional;
 
 public class ResgistroEstudianteService {
     
-
-
+   
     private final List<Estudiante> estudiantes = new ArrayList<>();
+    
     private final CalculoService calculoService = new CalculoService();
 
-    // Agregar estudiante (no sincronizo por simplicidad; para GUI local no es necesario)
-    public void agregarEstudiante(Estudiante e) {
-        if (e == null) throw new IllegalArgumentException("Estudiante nulo");
-        // Opcional: evitar duplicados por nombre
-        boolean existe = estudiantes.stream()
-                .anyMatch(s -> s.getNombre().equalsIgnoreCase(e.getNombre()));
-        if (existe) {
-            throw new IllegalArgumentException("Ya existe un estudiante con el mismo nombre");
-        }
+    // Agregar estudiante (no sincronizo por simplicidad; para GUI local no es necesario)}
+    
+    public void agregarEstudiante(Estudiante e ){
+        if (e == null) throw new IllegalArgumentException("El estudiante no puede ser nulo");
+        
         estudiantes.add(e);
+     
     }
-
+    
+    //metodo para listar los estudiantes
     public List<Estudiante> listarEstudiantes() {
         return new ArrayList<>(estudiantes); // copia defensiva
     }
 
-    // Promedio general (promedio de los promedios por estudiante)
+    // metodo para calcular promedio 
     public double calcularPromedioGeneral() {
         if (estudiantes.isEmpty()) return 0.0;
         return estudiantes.stream()
@@ -48,23 +46,22 @@ public class ResgistroEstudianteService {
                 .orElse(0.0);
     }
 
+    //metodo para obtener el mejor estdudiante 
     public Optional<Estudiante> mejorEstudiante() {
         return estudiantes.stream()
                 .max(Comparator.comparingDouble(s -> calculoService.promedio(s.getNotas())));
     }
-
+   
+    //metodo para contar estudinates 
     public long contarAprobados() {
         return estudiantes.stream()
                 .filter(s -> calculoService.aprobado(calculoService.promedio(s.getNotas())))
                 .count();
     }
 
+    //metodo para contar aprobados y reprobados 
     public long contarReprobados() {
         return estudiantes.size() - contarAprobados();
     }
 
-    // Métodos adicionales: eliminar, editar, buscar por id...
-    public boolean eliminarPorId(String id) {
-        return estudiantes.removeIf(e -> e.getId().equals(id));
-    }
 }
