@@ -312,6 +312,7 @@ public class RegistroEstudianteFrame extends javax.swing.JFrame {
         double nota2 = Double.parseDouble(txtNota2.getText());
         double nota3 = Double.parseDouble(txtNota3.getText());
         
+        //Extraemos modelo de la tabla
         var modelo = (javax.swing.table.DefaultTableModel) tableEstudiantes.getModel();
         modelo.addRow(new Object []{nombre, edad, nota1, nota2, nota3});
 
