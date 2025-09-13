@@ -1,25 +1,38 @@
 package com.codeup.registroacademico.domain.iu;
 
-import com.codeup.registroacademico.domain.Estudiante;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
+import com.codeup.registroacademico.domain.Estudiante;
+import com.codeup.registroacademico.domain.nota;
+import com.codeup.registroacademico.domain.service.ResgistroEstudianteService;
+import com.codeup.registroacademico.domain.service.CalculoService;
+
+import javax.swing.JOptionPane;
+import java.awt.HeadlessException;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import java.util.logging.Logger;
+import java.util.UUID;
 
 /**
  *
  * @author Coder
  */
 public class RegistroEstudianteFrame extends javax.swing.JFrame {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(RegistroEstudianteFrame.class.getName());
+
+    private final ResgistroEstudianteService registroService = new ResgistroEstudianteService();
+
+    private static final Logger logger = Logger.getLogger(RegistroEstudianteFrame.class.getName());
 
     /**
      * Creates new form RegistroEstudianteFrame
      */
     public RegistroEstudianteFrame() {
         initComponents();
+        logger.info("RegistroEstudianteFrame inicializado");
     }
 
     /**
@@ -52,9 +65,6 @@ public class RegistroEstudianteFrame extends javax.swing.JFrame {
         txtNota3 = new javax.swing.JTextField();
         estadisticas = new javax.swing.JButton();
         guardar = new javax.swing.JButton();
-        lblNotaMaxima = new javax.swing.JLabel();
-        lblResultado = new javax.swing.JLabel();
-        lblPromedio = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -194,10 +204,8 @@ public class RegistroEstudianteFrame extends javax.swing.JFrame {
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblPromedio, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,17 +224,12 @@ public class RegistroEstudianteFrame extends javax.swing.JFrame {
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(39, 39, 39))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(56, 56, 56)
-                                .addComponent(estadisticas, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(42, 42, 42)
-                                .addComponent(calcular, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(lblNotaMaxima, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(6, 6, 6)
+                        .addComponent(guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(56, 56, 56)
+                        .addComponent(estadisticas, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(42, 42, 42)
+                        .addComponent(calcular, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 403, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -252,20 +255,11 @@ public class RegistroEstudianteFrame extends javax.swing.JFrame {
                                     .addComponent(txtNota2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addComponent(lblPromedio, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(37, 37, 37)
-                        .addComponent(lblNotaMaxima, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(42, 42, 42)
-                        .addComponent(lblResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtNota3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(29, 29, 29)
+                .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtNota3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(141, 141, 141)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -291,8 +285,30 @@ public class RegistroEstudianteFrame extends javax.swing.JFrame {
 
     private void calcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calcularActionPerformed
         // TODO add your handling code here:
-   
-        
+        try {
+            double nota1 = Double.parseDouble(txtNota1.getText());
+            double nota2 = Double.parseDouble(txtNota2.getText());
+            double nota3 = Double.parseDouble(txtNota3.getText());
+
+            var notas = java.util.List.of(new nota(nota1), new nota(nota2), new nota(nota3));
+
+            double promedioCalc = new CalculoService().promedio(notas);
+            nota max = new CalculoService().notaMaxima(notas);
+            boolean aprobado = new CalculoService().aprobado(promedioCalc);
+
+            JOptionPane.showMessageDialog(this,
+                    "Promedio: " + promedioCalc
+                    + "\nNota máxima: " + max.getValor()
+                    + "\nEstado: " + (aprobado ? " Aprobado" : " Reprobado"),
+                    "Cálculo individual", JOptionPane.INFORMATION_MESSAGE
+            );
+
+        } catch (HeadlessException | NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this,
+                    "Error en cálculo: " + ex.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_calcularActionPerformed
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
@@ -301,22 +317,68 @@ public class RegistroEstudianteFrame extends javax.swing.JFrame {
 
     private void estadisticasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_estadisticasActionPerformed
         // TODO add your handling code here:
-      
+        // Botón Estadística                                              
+        try {
+            double promedioGeneral = registroService.calcularPromedioGeneral();
+            System.out.println(promedioGeneral);
+            var mejor = registroService.mejorEstudiante();
+            long aprobados = registroService.contarAprobados();
+            long reprobados = registroService.contarReprobados();
+            int total = registroService.listarEstudiantes().size();
+
+            String mensaje = String.format(
+                    "📊 Promedio general: %.2f\n🏆 Mejor estudiante: %s\n✅ Aprobados: %d\n❌ Reprobados: %d\n👥 Total estudiantes: %d",
+                    promedioGeneral,
+                    mejor.isPresent() ? mejor.get().getNombre() : "N/A",
+                    aprobados,
+                    reprobados,
+                    total
+            );
+
+            JOptionPane.showMessageDialog(this, mensaje, "Estadísticas", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (HeadlessException ex) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al calcular estadísticas: " + ex.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_estadisticasActionPerformed
 
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
-        // TODO add your handling code here:
-        String nombre = txtNombre.getText();
+        try {
+        String nombre = txtNombre.getText().trim();
         int edad = Integer.parseInt(txtEdad.getText());
         double nota1 = Double.parseDouble(txtNota1.getText());
         double nota2 = Double.parseDouble(txtNota2.getText());
         double nota3 = Double.parseDouble(txtNota3.getText());
-        
-        //Extraemos modelo de la tabla
-        var modelo = (javax.swing.table.DefaultTableModel) tableEstudiantes.getModel();
-        modelo.addRow(new Object []{nombre, edad, nota1, nota2, nota3});
 
- 
+        // ✅ Crear lista de notas
+        List<nota> notas = List.of(
+                new nota(nota1),
+                new nota(nota2),
+                new nota(nota3)
+        );
+
+        // ✅ Crear estudiante
+        var nuevo = new Estudiante(nombre, edad, notas, UUID.randomUUID());
+
+        // ✅ Guardar en el servicio
+        registroService.agregarEstudiante(nuevo);
+
+        // ✅ Refrescar la tabla con todos los estudiantes
+        actualizarListaEstudiantes();
+
+        JOptionPane.showMessageDialog(this,
+                "✅ Estudiante guardado correctamente",
+                "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(this,
+                "❌ Error: ingrese valores numéricos válidos en edad y notas",
+                "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+
     }//GEN-LAST:event_guardarActionPerformed
 
     private void txtNota3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNota3ActionPerformed
@@ -380,9 +442,6 @@ public class RegistroEstudianteFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField8;
-    private javax.swing.JLabel lblNotaMaxima;
-    private javax.swing.JLabel lblPromedio;
-    private javax.swing.JLabel lblResultado;
     private javax.swing.JLabel promedio;
     private javax.swing.JTable tableEstudiantes;
     private javax.swing.JTextField txtEdad;
@@ -391,4 +450,19 @@ public class RegistroEstudianteFrame extends javax.swing.JFrame {
     private javax.swing.JTextField txtNota2;
     private javax.swing.JTextField txtNota3;
     // End of variables declaration//GEN-END:variables
+
+    private void actualizarListaEstudiantes() {
+        DefaultTableModel model = (DefaultTableModel) tableEstudiantes.getModel();
+        model.setRowCount(0); // limpia la tabla
+
+        for (Estudiante e : registroService.listarEstudiantes()) {
+            model.addRow(new Object[]{
+                e.getNombre(),
+                e.getEdad(),
+                e.getNotas().get(0).getValor(),
+                e.getNotas().get(1).getValor(),
+                e.getNotas().get(2).getValor()
+            });
+        }
+    }
 }

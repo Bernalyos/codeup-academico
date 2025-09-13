@@ -11,21 +11,21 @@ package com.codeup.registroacademico.domain;
 
 import java.util.Collections;
 import java.util.List;
-
+import java.util.UUID;
 
 
 
 public class Estudiante {
     
     //atributos 
-    private final String id;
+    private final UUID id;
     private String nombre;
     private int edad;
     private List<nota> notas;//exactamente 3
     
     //constructor
-    public Estudiante(String nombre, int edad, List<nota> notas, java.lang.String id){
-        if (id== null || id.isBlank()) throw new IllegalArgumentException("EL id es obligatorio");
+    public Estudiante(String nombre, int edad, List<nota> notas, UUID id){
+        if (id== null) throw new IllegalArgumentException("EL id es obligatorio");
         if (nombre == null || nombre.isBlank()) throw new IllegalArgumentException("El nombre es obligatorio");
         if (edad <= 0) throw new IllegalArgumentException("La edad debe ser mayor a 0");
         if (notas == null || notas.size() !=3) throw new IllegalArgumentException("Se requieren exactamente 3 notas ");
@@ -35,10 +35,18 @@ public class Estudiante {
          this.notas = notas;
          this.id = id;
     }
+
+    public Estudiante(String nombre, int edad, double nota1, double nota2, double nota3) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public Estudiante(String toString, String nombre, int edad, List<nota> of) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
         
        //metodos de acceso y validación getters y setters ó
     
-    public String getId() { return id; } 
+    public UUID getId() { return id; } 
     
     public String getNombre() { return nombre; }
     
