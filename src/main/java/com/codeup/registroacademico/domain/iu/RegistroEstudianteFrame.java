@@ -9,13 +9,16 @@ import com.codeup.registroacademico.domain.Estudiante;
 import com.codeup.registroacademico.domain.nota;
 import com.codeup.registroacademico.domain.service.ResgistroEstudianteService;
 import com.codeup.registroacademico.domain.service.CalculoService;
+import com.codeup.registroacademico.domain.service.ArchivoService;
 
 import javax.swing.JOptionPane;
 import java.awt.HeadlessException;
+import java.io.IOException;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import java.util.logging.Logger;
 import java.util.UUID;
+import javax.swing.JFileChooser;
 
 /**
  *
@@ -24,6 +27,8 @@ import java.util.UUID;
 public class RegistroEstudianteFrame extends javax.swing.JFrame {
 
     private final ResgistroEstudianteService registroService = new ResgistroEstudianteService();
+    
+    private final ArchivoService archivoService = new ArchivoService();
 
     private static final Logger logger = Logger.getLogger(RegistroEstudianteFrame.class.getName());
 
@@ -73,6 +78,8 @@ public class RegistroEstudianteFrame extends javax.swing.JFrame {
         txtEdad = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableEstudiantes = new javax.swing.JTable();
+        guardarCSV = new javax.swing.JButton();
+        cargarCSV = new javax.swing.JButton();
 
         jLabel1.setText("jLabel1");
 
@@ -192,6 +199,20 @@ public class RegistroEstudianteFrame extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tableEstudiantes);
 
+        guardarCSV.setText("Guardar CSV");
+        guardarCSV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                guardarCSVActionPerformed(evt);
+            }
+        });
+
+        cargarCSV.setText("Cargar CSV");
+        cargarCSV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cargarCSVActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -205,24 +226,27 @@ public class RegistroEstudianteFrame extends javax.swing.JFrame {
                             .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 189, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6)
-                                    .addComponent(txtNota3, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jLabel6)
+                                .addGap(0, 550, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtNota1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtNota2, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(39, 39, 39))))
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtNota3, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(87, 87, 87)
+                                .addComponent(guardarCSV, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cargarCSV, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(52, 52, 52))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -230,18 +254,18 @@ public class RegistroEstudianteFrame extends javax.swing.JFrame {
                         .addComponent(estadisticas, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(42, 42, 42)
                         .addComponent(calcular, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 403, Short.MAX_VALUE))))
+                        .addGap(0, 468, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(4, 4, 4)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(4, 4, 4)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtNota1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -254,12 +278,21 @@ public class RegistroEstudianteFrame extends javax.swing.JFrame {
                                     .addComponent(txtEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtNota2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(29, 29, 29)
                 .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtNota3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(141, 141, 141)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtNota3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(guardarCSV, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cargarCSV, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(124, 124, 124)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -393,6 +426,52 @@ public class RegistroEstudianteFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEdadActionPerformed
 
+    private void guardarCSVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarCSVActionPerformed
+        // TODO add your handling code here:
+         JFileChooser chooser = new JFileChooser();
+    if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+        try {
+            // Guardar estudiantes actuales en el archivo seleccionado
+            archivoService.guardarCSV(
+                chooser.getSelectedFile(),
+                registroService.listarEstudiantes()
+            );
+            JOptionPane.showMessageDialog(this, "✅ Datos guardados correctamente.");
+        } catch (HeadlessException ex) {
+            JOptionPane.showMessageDialog(this, 
+                "❌ Error al guardar: " + ex.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE
+            );
+        }    catch (IOException ex) {
+                 System.getLogger(RegistroEstudianteFrame.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+             }
+    }
+    }//GEN-LAST:event_guardarCSVActionPerformed
+
+    private void cargarCSVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarCSVActionPerformed
+        // TODO add your handling code here:
+        JFileChooser chooser = new JFileChooser();
+    if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+        try {
+            // Leer estudiantes desde el CSV
+            var estudiantes = archivoService.cargarCSV(chooser.getSelectedFile());
+            
+            // Reemplazar la lista actual
+            registroService.reemplazar(estudiantes);
+            
+            // Refrescar la tabla en pantalla
+            actualizarListaEstudiantes();
+            
+            JOptionPane.showMessageDialog(this, "✅ Datos cargados correctamente.");
+        } catch (HeadlessException | IOException ex) {
+            JOptionPane.showMessageDialog(this, 
+                "❌ Error al cargar archivo: " + ex.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+    }//GEN-LAST:event_cargarCSVActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -420,8 +499,10 @@ public class RegistroEstudianteFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton calcular;
+    private javax.swing.JButton cargarCSV;
     private javax.swing.JButton estadisticas;
     private javax.swing.JButton guardar;
+    private javax.swing.JButton guardarCSV;
     private javax.swing.JButton jButton1;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;

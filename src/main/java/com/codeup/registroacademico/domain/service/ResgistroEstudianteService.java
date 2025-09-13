@@ -58,5 +58,9 @@ public class ResgistroEstudianteService {
                 .count();
     }
 
+    public void reemplazar(List<Estudiante> estudiantes) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 
 }

@@ -43,6 +43,10 @@ public class Estudiante {
     public Estudiante(String toString, String nombre, int edad, List<nota> of) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    public Estudiante(String id, String nombre, int edad, double nota1, double nota2, double nota3) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
         
        //metodos de acceso y validación getters y setters ó
     
